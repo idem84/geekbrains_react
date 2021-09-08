@@ -1,0 +1,7 @@
+.text {
+    padding: 10px;
+    color: red;
+    &>p {
+        color: blue;
+    }
+}
