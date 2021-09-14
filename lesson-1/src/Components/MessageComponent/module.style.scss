@@ -1,7 +1,7 @@
 .text {
     padding: 10px;
     color: red;
-    &>p {
+    &>span {
         color: blue;
     }
 }

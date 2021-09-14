@@ -3,8 +3,8 @@ import './module.style.scss';
 const MessageComponent = ({text}) => {
     return (
         <div className="text">
-            {text}
-            <p>SCSS TEST</p>
+            <p>{text}</p>
+            <span>SCSS TEST</span>
         </div>
     )
 }
