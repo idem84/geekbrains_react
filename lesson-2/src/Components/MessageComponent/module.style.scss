@@ -1,0 +1,16 @@
+.text {
+    padding: 10px;
+    color: red;
+    &>span {
+        color: blue;
+    }
+}
+ul {
+    width: 600px;
+    list-style-type: none;
+    text-align: left;
+    &>li{
+        border-bottom: 1px solid lightgray;
+        padding: 5px;
+    }
+}
