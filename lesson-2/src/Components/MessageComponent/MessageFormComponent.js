@@ -1,8 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import './module.style.scss';
 
 const MessageFormComponent = ({ sendMessage }) => {
-    const [state, setState] = React.useState({
+    const [state, setState] = useState({
         author: "",
         message: ""
     })
