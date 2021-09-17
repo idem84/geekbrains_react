@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import './App.css';
-import Message from "./Components/MessageComponent/MessageComponent";
 import MessageForm from './Components/MessageComponent/MessageFormComponent';
 import MessageList from "./Components/MessageComponent/MessageListComponent";
+import ChatsList from "./Components/ChatsComponent/ChatsListComponent";
+import Box from '@material-ui/core/Box';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 
-const message = "Hello, world!";
 const DATA = [
   {
     id: 1,
@@ -17,6 +18,23 @@ const DATA = [
     author: "Sergey",
   }
 ]
+
+const CHATS = [
+  {
+    id: 1,
+    name: 'Genral'
+  },
+  {
+    id: 2,
+    name: "Buy/Sell"
+  },
+  {
+    id: 3,
+    name: "Flud"
+  }
+]
+
+const theme = createTheme();
 
 const App = () => {
   const [state, setState] = useState({
@@ -36,13 +54,22 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <Message text={message} />
-      <MessageList messages={state.messages} />
-      <MessageForm sendMessage={sendMessage} />
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: 'flex' }}>
+        <Box
+          component="nav"
+          aria-label="mailbox folders"
+          sx={{ flexGrow: 1, p: 3 }}
+        >
+          <ChatsList chats={CHATS} />
+        </Box>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <MessageList messages={state.messages} />
+          <MessageForm sendMessage={sendMessage} />
+        </Box>
+      </Box>
+    </ThemeProvider>
+  )
 }
-
 
 export default App;
