@@ -4,9 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import './module.style.scss';
 
-const MessageFormComponent = ({ sendMessage}) => {
+const MessageFormComponent = ({ sendMessage }) => {
     // Material ui use attribute "autoFocus" for that!!!!!
     const inputRef = useRef(null);
     

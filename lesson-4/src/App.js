@@ -1,75 +1,33 @@
-import { useEffect, useState } from "react";
 import './App.css';
-import MessageForm from './Components/MessageComponent/MessageFormComponent';
-import MessageList from "./Components/MessageComponent/MessageListComponent";
-import ChatsList from "./Components/ChatsComponent/ChatsListComponent";
-import Box from '@material-ui/core/Box';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-
-const DATA = [
-  {
-    id: 1,
-    message: "Hello!",
-    author: "Dmitriy",
-  },
-  {
-    id: 2,
-    message: "Hello! How ar you?",
-    author: "Sergey",
-  }
-]
-
-const CHATS = [
-  {
-    id: 1,
-    name: 'Genral'
-  },
-  {
-    id: 2,
-    name: "Buy/Sell"
-  },
-  {
-    id: 3,
-    name: "Flud"
-  }
-]
+import Main from "./Components/MainComponent/MainComponent";
+import Chats from "./Components/ChatsComponent/ChatsComponent";
+import Profile from "./Components/ProfileComponent/ProfileComponent";
+import NotFound from "./Components/NotFound/NotFoundComponent";
+import TopMenu from "./Components/TopMenuComponent/TopMenuComponent"
+import Box from '@material-ui/core/Box';
+import { memo } from "react";
 
 const theme = createTheme();
 
-const App = () => {
-  const [state, setState] = useState({
-    messages: DATA
-  })
-
-  useEffect(() => {
-    console.log("Added message");
-  }, [state.messages])
-
-  const sendMessage = (message) => {
-    message.id = state.messages.length + 1;
-
-    setState(prevState => ({
-      messages: [...prevState.messages, message]
-    }))
-  }
-
+function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex' }}>
-        <Box
-          component="nav"
-          aria-label="mailbox folders"
-          sx={{ flexGrow: 1, p: 3 }}
-        >
-          <ChatsList chats={CHATS} />
-        </Box>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <MessageList messages={state.messages} />
-          <MessageForm sendMessage={sendMessage} />
-        </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '1000px' }}>
+       <TopMenu />
+        <BrowserRouter basename="/#/">
+          <Switch>
+            <Route exact path="/" component={Main} />
+            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/chats" component={Chats} />
+            <Route exact path="/chats/:chatId" component={Chats} />
+            <Route component={NotFound} />
+          </Switch>
+        </BrowserRouter>
       </Box>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App;
+export default memo(App);

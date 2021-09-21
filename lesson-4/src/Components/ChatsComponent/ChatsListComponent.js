@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemButton from '@material-ui/core/ListItemButton';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Link from '@material-ui/core/Link';
 import { Drafts as DraftsIcon } from "@material-ui/icons";
 
 const ChatsListComponent = ({ chats }) => {
@@ -21,7 +22,9 @@ const ChatsListComponent = ({ chats }) => {
                       <ListItemIcon>
                         <DraftsIcon />
                       </ListItemIcon>
-                      <ListItemText primary={obj.name} />
+                      <Link href={`/chats/${obj.id}`}>
+                        <ListItemText primary={obj.name} />
+                      </Link>
                     </ListItemButton>
                   </ListItem>
 
