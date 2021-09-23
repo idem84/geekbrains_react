@@ -2,27 +2,42 @@ import { useState } from "react";
 import './module.style.scss';
 
 const MessageFormComponent = ({ sendMessage }) => {
-    const [state, setState] = useState({
-        author: "",
-        message: ""
-    })
+    // const [state, setState] = useState({
+    //     author: "",
+    //     message: ""
+    // })
+
+    const [author, setAuthor] = useState('')
+    const [message, setMessage] = useState('')
 
     const handleChange = (evt) => {
+        const name = evt.target.name;
         const value = evt.target.value;
 
-        setState({
-            ...state,
-            [evt.target.name]: value
-        });
+        switch (name) {
+            case 'author': {
+                setAuthor(value)
+                break
+            }
+            case 'message': {
+                setMessage(value)
+                break
+            }
+        }
+
+        // setState({
+        //     ...state,
+        //     [evt.target.name]: value
+        // });
     }
 
     const handleSubmit = (evt) => {
         evt.preventDefault()
-        sendMessage(state)
-        setState({
-            author: "",
-            message: ""
-        });
+
+        sendMessage(author, message)
+
+        setAuthor('')
+        setMessage('')
       }
 
     return (
@@ -32,7 +47,7 @@ const MessageFormComponent = ({ sendMessage }) => {
                 <input
                     type="text"
                     name="author"
-                    value={state.author}
+                    value={author}
                     onChange={handleChange}
                 />
             </label>
@@ -41,7 +56,7 @@ const MessageFormComponent = ({ sendMessage }) => {
                 <input
                     type="text"
                     name="message"
-                    value={state.message}
+                    value={message}
                     onChange={handleChange}
                 />
             </label>

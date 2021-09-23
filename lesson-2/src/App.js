@@ -5,7 +5,7 @@ import MessageForm from './Components/MessageComponent/MessageFormComponent';
 import MessageList from "./Components/MessageComponent/MessageListComponent";
 
 const message = "Hello, world!";
-const DATA = [
+const messages = [
   {
     id: 1,
     message: "Hello!",
@@ -19,26 +19,28 @@ const DATA = [
 ]
 
 const App = () => {
-  const [state, setState] = useState({
-    messages: DATA
-  })
+  const [messagesState, addMessage] = useState([...messages])
+
 
   useEffect(() => {
     console.log("Added message");
-  }, [state.messages])
+  }, [messagesState])
 
-  const sendMessage = (message) => {
-    message.id = state.messages.length + 1;
+  const sendMessage = (author, message) => {
+    let id = messagesState.length + 1
+    let data = {
+      'id': id,
+      'author': author,
+      'message': message
+    }
 
-    setState(prevState => ({
-      messages: [...prevState.messages, message]
-    }))
+    addMessage(prevState => ([...prevState, data]))
   }
 
   return (
     <div className="App">
       <Message text={message} />
-      <MessageList messages={state.messages} />
+      <MessageList messages={messagesState} />
       <MessageForm sendMessage={sendMessage} />
     </div>
   );
