@@ -6,9 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 const MessagesListComponent = ({ messages }) => {
     return (
         <>
-            <br />
-            <br />
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" style={{marginTop: '40px'}}>
                 Messages
             </Typography>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

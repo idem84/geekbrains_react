@@ -100,7 +100,7 @@ const ChatsComponent = () => {
             >
                 <ChatsList chats={CHATS} />
             </Box>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 3, p: 3 }}>
                 { !error ? <MessageList messages={state.messages} /> : <h2>Chat with id #{chatId} does not exist</h2> }
                 { !error ? <MessageForm sendMessage={sendMessage} /> : null }
             </Box>
