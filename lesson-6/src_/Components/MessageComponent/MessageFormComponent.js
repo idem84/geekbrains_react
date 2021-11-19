@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-const MessageFormComponent = ({ sendMessage }) => {
+const MessageFormComponent = ({ handleMessageSubmit }) => {
     // Material ui use attribute "autoFocus" for that!!!!!
     const inputRef = useRef(null);
     
@@ -32,7 +32,7 @@ const MessageFormComponent = ({ sendMessage }) => {
         evt.preventDefault()
 
         if (state.author !== '' && state.message !== '') {
-            sendMessage(state)
+            handleMessageSubmit(state)
             setState({
                 author: "",
                 message: ""
