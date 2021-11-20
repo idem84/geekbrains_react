@@ -1,7 +1,7 @@
 import { CHANGE_IS_ONLINE, CHANGE_NAME } from '../actions/profile'
 
 const initialState = {
-    name: 'John',
+    name: 'Dmitriy',
     age: 37,
     isOnline: true,
 }

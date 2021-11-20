@@ -56,30 +56,4 @@ export default function Profile(props) {
             </Box>
         </Box>
     )
-
-    return (
-        <div>
-            <p>Profile page</p>
-            <p>
-                <b>Name: </b>
-                {name}
-            </p>
-            <p>
-                <b>Age: </b>
-                {age}
-            </p>
-
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={isOnline}
-                        onChange={handleIsOnlineChange}
-                        name="checkedB"
-                        color="primary"
-                    />
-                }
-                label={<p>Is user online</p>}
-            />
-        </div>
-    )
 }

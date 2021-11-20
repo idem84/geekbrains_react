@@ -1,56 +1,61 @@
-import React from 'react'
-import TextField from '@material-ui/core/TextField'
-import SendIcon from '@material-ui/icons/Send'
-import IconButton from '@material-ui/core/IconButton'
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import AddCircle from "@material-ui/icons/AddCircle";
+import IconButton from "@material-ui/core/IconButton";
+import Box from "@material-ui/core/Box";
 
 const Input = (props) => {
-    const {
-        label = 'Сообщение',
-        placeholder = 'Введите сообщение',
-        onSubmit,
-    } = props
-    const inputRef = React.useRef(null)
+  const {
+    label = "Сообщение",
+    placeholder = "Введите сообщение",
+    onSubmit,
+  } = props;
+  const inputRef = React.useRef(null);
 
-    const [inputValue, setInputValue] = React.useState('')
+  const [inputValue, setInputValue] = React.useState("");
 
-    const handleChange = (e) => {
-        setInputValue(e.target.value)
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (onSubmit) {
+      onSubmit(inputValue);
+      setInputValue("");
+      setTimeout(() => inputRef.current?.focus(), 200);
     }
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+  return (
+    <Box
+      className="app__form bordered"
+      component="form"
+      noValidate
+      onSubmit={handleSubmit}
+      sx={{ mt: 3 }}
+    >
+      <TextField
+        required
+        innerRef={inputRef}
+        className="child__text-field bordered"
+        variant="outlined"
+        label={label}
+        placeholder={placeholder}
+        value={inputValue}
+        onChange={handleChange}
+      />
+      <IconButton
+        type="submit"
+        variant="contained"
+        tabIndex={-1}
+        title="Отправить"
+      >
+        <AddCircle style={{ fontSize: "40px" }} />
+      </IconButton>
+    </Box>
+  );
+};
 
-        if (onSubmit) {
-            onSubmit(inputValue)
-            setInputValue('')
-            setTimeout(() => inputRef.current?.focus(), 200)
-        }
-    }
-
-    return (
-        <form className="app__form bordered" onSubmit={handleSubmit}>
-            <TextField
-                fullWidth
-                required
-                autoFocus
-                innerRef={inputRef}
-                className="child__text-field bordered"
-                variant="outlined"
-                label={label}
-                placeholder={placeholder}
-                value={inputValue}
-                onChange={handleChange}
-            />
-            <IconButton
-                type="submit"
-                variant="contained"
-                tabIndex={-1}
-                title="Отправить"
-            >
-                <SendIcon />
-            </IconButton>
-        </form>
-    )
-}
-
-export default Input
+export default Input;
