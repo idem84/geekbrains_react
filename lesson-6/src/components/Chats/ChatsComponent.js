@@ -67,7 +67,6 @@ export default function Chats() {
           {Object.values(chats).map((chat) => (
             <div className="chats__sidebar__item" key={chat.id}>
               <ListItem
-                key={chat.id}
                 disablePadding
                 button
                 component="a"

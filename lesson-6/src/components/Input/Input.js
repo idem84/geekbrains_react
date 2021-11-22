@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import AddCircle from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,9 +10,9 @@ const Input = (props) => {
     placeholder = "Введите сообщение",
     onSubmit,
   } = props;
-  const inputRef = React.useRef(null);
+  const inputRef = useRef(null);
 
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -38,7 +38,7 @@ const Input = (props) => {
     >
       <TextField
         required
-        innerRef={inputRef}
+        ref={inputRef}
         className="child__text-field bordered"
         variant="outlined"
         label={label}

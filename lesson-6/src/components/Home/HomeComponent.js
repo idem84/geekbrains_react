@@ -2,7 +2,7 @@ import Box from "@material-ui/core/Box";
 
 export default function Home() {
     return (
-        <Box component="home" sx={{padding: '20px'}}>
+        <Box sx={{padding: '20px'}}>
             <h1>Main page</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore distinctio ipsum nam porro! Eaque impedit laudantium dolore fuga enim ea repellat, maiores magni atque ut, culpa asperiores. Quasi, debitis vitae.
                 Et quod id iusto repellat molestias repudiandae pariatur, quas veritatis officiis placeat vel. Est ipsum expedita odio perferendis repellat officia sint quod, non velit iusto asperiores id dignissimos earum nobis.
