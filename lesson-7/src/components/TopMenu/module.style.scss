@@ -1,0 +1,21 @@
+#topMenu {
+    width: 100%;
+    border-bottom: 1px solid #000;
+    &>ul {
+        display: flex;
+        list-style-type: none;
+        &>li {
+            padding: 10px;
+            color: black;
+            &>a {
+                color: inherit;
+                text-decoration-color: inherit;
+                display: block;
+            }
+            &:hover {
+                background-color: grey;
+                color: #fff;
+            }
+        }
+    }
+}
