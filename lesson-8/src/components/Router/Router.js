@@ -5,6 +5,7 @@ import Profile from '../Profile/ProfileComponent'
 import Home from '../Home/HomeComponent'
 import HomeContainer from '../Home/HomeContainer'
 import NotFound from "../NotFound/NotFoundComponent";
+import News from '../News/NewsComponent';
 import Box from "@material-ui/core/Box";
 
 export default function Router() {
@@ -31,6 +32,7 @@ export default function Router() {
             <Route exact path="/chats" component={Chats} />
             <Route exact path="/chats/:chatId" component={Chats} />
             <Route exact path="/profile"><Profile /></Route>
+            <Route exact path="/news" component={News} />
             <Route exact component={NotFound} />
         </Switch>
     )

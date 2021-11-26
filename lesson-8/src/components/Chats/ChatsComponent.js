@@ -47,26 +47,6 @@ export default function Chats() {
     [chatId, dispatch]
   );
 
-  // const handleMessageSubmit = (newMessageText) => {
-  //   addMessageWithThunk(
-  //     {
-  //       id: `message${Date.now()}`,
-  //       author: AUTHORS.ME,
-  //       text: newMessageText,
-  //     }, chatId
-  //   );
-  // };
-
-  // const handleMessageSubmit = (newMessageText) => {
-  //   dispatch(
-  //     addMessage(chatId, {
-  //       id: `message${Date.now()}`,
-  //       author: AUTHORS.ME,
-  //       text: newMessageText,
-  //     })
-  //   );
-  // };
-
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box

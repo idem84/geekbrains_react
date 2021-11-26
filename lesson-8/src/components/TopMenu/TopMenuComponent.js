@@ -8,6 +8,7 @@ const TopMenuComponent = () => {
         <li><Link href="/">Home</Link></li>
         <li><Link href="/profile">Profile</Link></li>
         <li><Link href="/chats">Chats</Link></li>
+        <li><Link href="/news">News</Link></li>
       </ul>
     </div>
   );
