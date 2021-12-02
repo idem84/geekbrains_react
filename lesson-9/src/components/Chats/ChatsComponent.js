@@ -1,6 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useParams, useHistory } from "react-router";
 import Message from "../Message/Message";
+
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,31 +10,58 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Input from "../Input/Input";
 import { Drafts as DraftsIcon } from "@material-ui/icons";
+
+import Input from "../Input/Input";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat, removeChat } from "../../actions/chats";
+import {
+  addChat,
+  removeChat,
+  addChatWithFb,
+  removeChatWithFb,
+  initChatsTracking,
+} from "../../actions/chats";
+
 import { addMessageWithThunk, deleteAllMessages } from "../../actions/messages";
+import { selectChats } from "../../selectors/chats";
+
+/** new */
+import { onValue, set } from "firebase/database";
+import { push } from "firebase/database";
+import {
+  getChatMsgsListRefById,
+  getChatMsgsRefById,
+  chatsRef,
+  getChatRefById,
+} from "../../services/firebase";
+/** new */
 
 export default function Chats() {
   const { chatId } = useParams();
   const history = useHistory();
-  const chats = useSelector((state) => state.chats);
+  const chats = useSelector(selectChats);
   const messages = useSelector((state) => state.messages[chatId] || []);
   const dispatch = useDispatch();
   const handleChatLinkClick = (chat) => {
     history.push(`/chats/${chat.id}`);
   };
 
+  console.log(chats);
+
+  useEffect(() => {
+    dispatch(initChatsTracking());
+  }, []);
+
   const handleAddChat = (name) => {
-    dispatch(addChat(`chat${Date.now()}`, name));
+    const newId = `chat${Date.now()}`;
+    dispatch(addChatWithFb({ name: name, id: newId }));
   };
 
   const handleRemoveChat = (chatId) => {
-    dispatch(removeChat(chatId));
+    dispatch(removeChatWithFb(chatId));
 
-    if (Object.keys(chats).length === 0) {
+    if (chats.length === 0) {
       dispatch(deleteAllMessages());
 
       return history.push("/chats");
@@ -60,7 +88,7 @@ export default function Chats() {
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         >
-          {Object.values(chats).map((chat) => (
+          {chats.map((chat) => (
             <div className="chats__sidebar__item" key={chat.id}>
               <ListItem
                 disablePadding
@@ -98,9 +126,7 @@ export default function Chats() {
           <p>No messages</p>
         ) : null}
 
-        {messages.length ? (
-          <Message messages={messages} />
-        ) : null}
+        {messages.length ? <Message messages={messages} /> : null}
 
         {Object.keys(chats).length > 0 && chatId ? (
           <Input type="message" onSubmit={handleMessageSubmit} />
