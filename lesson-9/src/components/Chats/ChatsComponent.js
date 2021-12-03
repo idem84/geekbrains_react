@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useParams, useHistory } from "react-router";
 import Message from "../Message/Message";
-
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,46 +10,44 @@ import Typography from "@material-ui/core/Typography";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Drafts as DraftsIcon } from "@material-ui/icons";
+import { AUTHORS } from "../App/constants";
 
 import Input from "../Input/Input";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addChat,
-  removeChat,
   addChatWithFb,
   removeChatWithFb,
   initChatsTracking,
 } from "../../actions/chats";
+import {
+  removeMessageWithFb,
+  initMessagesTracking,
+  addMessageWithFb,
+} from "../../actions/messages";
 
-import { addMessageWithThunk, deleteAllMessages } from "../../actions/messages";
 import { selectChats } from "../../selectors/chats";
 
 /** new */
-import { onValue, set } from "firebase/database";
 import { push } from "firebase/database";
-import {
-  getChatMsgsListRefById,
-  getChatMsgsRefById,
-  chatsRef,
-  getChatRefById,
-} from "../../services/firebase";
+import { getChatMsgsListRefById } from "../../services/firebase";
+import { selectMessages } from "../../selectors/messages";
 /** new */
 
 export default function Chats() {
   const { chatId } = useParams();
   const history = useHistory();
   const chats = useSelector(selectChats);
-  const messages = useSelector((state) => state.messages[chatId] || []);
+  const messages = useSelector(selectMessages);
   const dispatch = useDispatch();
   const handleChatLinkClick = (chat) => {
     history.push(`/chats/${chat.id}`);
+    dispatch(initMessagesTracking(chat.id));
   };
-
-  console.log(chats);
 
   useEffect(() => {
     dispatch(initChatsTracking());
+    dispatch(initMessagesTracking());
   }, []);
 
   const handleAddChat = (name) => {
@@ -58,22 +55,46 @@ export default function Chats() {
     dispatch(addChatWithFb({ name: name, id: newId }));
   };
 
-  const handleRemoveChat = (chatId) => {
-    dispatch(removeChatWithFb(chatId));
-
-    if (chats.length === 0) {
-      dispatch(deleteAllMessages());
-
-      return history.push("/chats");
-    }
-  };
+  // const handleMessageSubmit = (message) => {
+  //   dispatch(addMessageWithF(chatId), {
+  //     author: message.author,
+  //     id: message.id,
+  //     text: message.text,
+  //   });
+  // };
 
   const handleMessageSubmit = useCallback(
     (message) => {
-      dispatch(addMessageWithThunk(chatId, message));
+      push(getChatMsgsListRefById(chatId), {
+        author: message.author,
+        id: message.id,
+        text: message.text,
+      });
+
+      if (message.author !== AUTHORS.BOT) {
+        const botMessage = {
+          id: `messages${Date.now()}`,
+          author: AUTHORS.BOT,
+          text: "Сообщение от Bot ",
+        };
+
+        setTimeout(
+          () => push(getChatMsgsListRefById(chatId), botMessage),
+          1500
+        );
+      }
     },
-    [chatId, dispatch]
+    [chatId]
   );
+
+  const handleRemoveChat = (chatId) => {
+    dispatch(removeChatWithFb(chatId));
+    dispatch(removeMessageWithFb(chatId));
+
+    return history.push("/chats");
+  };
+
+  console.log(messages[chatId]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -122,13 +143,13 @@ export default function Chats() {
           Messages
         </Typography>
 
-        {Object.keys(chats).length > 0 && !messages.length ? (
-          <p>No messages</p>
+        {chats.length > 0 && messages.length == 0 ? <p>No messages</p> : null}
+
+        {typeof chatId !== "undefined" && Object.keys(messages).length > 0 ? (
+          <Message messages={messages[chatId]} />
         ) : null}
 
-        {messages.length ? <Message messages={messages} /> : null}
-
-        {Object.keys(chats).length > 0 && chatId ? (
+        {chats.length > 0 && chatId ? (
           <Input type="message" onSubmit={handleMessageSubmit} />
         ) : (
           <p>Please first add or choose new chat</p>

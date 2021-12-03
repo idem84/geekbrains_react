@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { selectAuth } from "../../selectors/profile";
@@ -10,34 +9,16 @@ import NotFound from "../NotFound/NotFoundComponent";
 import News from "../News/NewsComponent";
 import Box from "@material-ui/core/Box";
 import Login from "../Login/LoginComponent";
-import { messagesRef } from "../../services/firebase";
-import { onValue } from "firebase/database";
 
 const PrivateRoute = (props) => {
   const authed = useSelector(selectAuth);
 
-  console.log(authed);
+  console.log("Auth: " + authed);
 
   return authed ? <Route {...props} /> : <Redirect to="/login" />;
 };
 
 export default function Router() {
-  const [msgs, setMsgs] = useState({});
-
-  useEffect(() => {
-    onValue(messagesRef, (snapshot) => {
-      const newMsgs = {};
-
-      snapshot.forEach((chatMsgsSnap) => {
-        newMsgs[chatMsgsSnap.key] = Object.values(
-          chatMsgsSnap.val().messageList || {}
-        );
-      });
-
-      setMsgs(newMsgs);
-    });
-  }, []);
-
   return (
     <Switch>
       <Route

@@ -8,26 +8,6 @@ import "./module.style.scss";
 import { auth } from "../../services/firebase";
 
 const TopMenuComponent = () => {
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       dispatch(signIn());
-  //     } else {
-  //       dispatch(signOut());
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
-  const handleSignOut = (e) => {
-    e.preventDefault();
-
-    dispatch(signOut());
-  };
-
   return (
     <Box id="topMenu">
       <List>
@@ -44,9 +24,7 @@ const TopMenuComponent = () => {
           <Link href="/news">News</Link>
         </ListItem>
         <ListItem>
-          <Link href="/" onClick={handleSignOut}>
-            Sign out
-          </Link>
+          <Link href="/login">Login</Link>
         </ListItem>
       </List>
     </Box>

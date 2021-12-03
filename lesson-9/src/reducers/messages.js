@@ -1,25 +1,25 @@
-import { ADD_MESSAGE } from '../actions/messages'
-import { DELETE_ALL_MESSAGES } from '../actions/messages'
+import { ADD_MESSAGE, REMOVE_MESSAGE, SET_MESSAGES } from "../actions/messages";
 
-const initialState = {
+const initialMessages = [];
 
-}
+export const messagesReducer = (state = initialMessages, { payload, type }) => {
+  switch (type) {
+    case ADD_MESSAGE:
+      return {
+        ...state,
+        [payload.chatId]: [...state[payload.chatId], payload.message],
+      };
+    case REMOVE_MESSAGE: {
+      const newMessages = { ...state };
+      newMessages[payload.chatId] = newMessages[payload.chatId].filter(
+        ({ id }) => id !== payload.idToDelete
+      );
 
-export default function messagesReducer(state = initialState, action) {
-    switch (action.type) {
-        case ADD_MESSAGE: {
-            return {
-                ...state,
-                [action.payload.chatId]: [
-                    ...(state[action.payload.chatId] || []),
-                    action.payload.message,
-                ],
-            }
-        }
-        case DELETE_ALL_MESSAGES: {
-            return {}
-        }
-        default:
-            return state
+      return newMessages;
     }
-}
+    case SET_MESSAGES:
+      return payload;
+    default:
+      return state;
+  }
+};

@@ -1,8 +1,9 @@
 const Message = ({ messages }) => (
   <div>
-    {messages.map((mes) => (
+    {console.log(messages)}
+    {Object.values(messages).map((mes) => (
       <div key={mes.id}>
-        <span>{mes.author}:</span>
+        <span>{mes.author}: </span>
         <span>{mes.text}</span>
       </div>
     ))}

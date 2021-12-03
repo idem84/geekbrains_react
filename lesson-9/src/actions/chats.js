@@ -1,8 +1,8 @@
 import { onValue, set, remove } from "firebase/database";
 import {
   chatsRef,
-  getChatMsgsRefById,
   getChatRefById,
+  getChatMsgsRefById,
 } from "../services/firebase";
 
 export const ADD_CHAT = "CHATS::ADD_CHAT";
@@ -37,7 +37,7 @@ export const removeChatWithFb = (chatId) => (dispatch) => {
 
 export const initChatsTracking = () => (dispatch) => {
   onValue(chatsRef, (chatsSnap) => {
-    console.log(chatsSnap);
+    //console.log(chatsSnap);
     const newChats = [];
 
     chatsSnap.forEach((snapshot) => {
